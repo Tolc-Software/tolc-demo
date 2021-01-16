@@ -1,0 +1,29 @@
+name: MacOS
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure
+      run: cmake -S. -Bbuild -DPYTHON_EXECUTABLE=$(which python3)
+
+    - name: Build
+      run: cmake --build build -j4
+
+    - name: Import python library
+      run: |
+        cd build
+        python3 -c "import Math"
