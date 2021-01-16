@@ -1,5 +1,7 @@
 # Tolc demo - Using `C++` from other languages #
 
+![Ubuntu](https://github.com/Tolc-Software/tolc-demo/workflows/Ubuntu/badge.svg) ![MacOS](https://github.com/Tolc-Software/tolc-demo/workflows/MacOS/badge.svg)
+
 `tolc` is a project aiming to making it effortless to use `C++` from other languages. This demo is meant to show how easy it is to get going and start using existing `C++` libraries from for example `python` with the help of `tolc`.
 
 `tolc` itself is a simple executable that takes one file (typically a `C++` header), and spits out binding code that can be built to provide a bridge from the input to some other language. This demo uses the open beta version of `tolc` and shows the available `CMake` wrappers to translate a library to be used from `python`.
