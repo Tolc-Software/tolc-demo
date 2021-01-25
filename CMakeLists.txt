@@ -15,18 +15,14 @@ set_target_properties(Math
                       OFF)
 
 # Download the tolc bootstraper
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/tolc.cmake")
-  message(STATUS "Downloading tolc.cmake from https://github.com/Tolc-Software/bootstrap-tolc-cmake")
-  file(
-    DOWNLOAD
-      "https://github.com/Tolc-Software/bootstrap-tolc-cmake/raw/main/tolc.cmake"
-      "${CMAKE_BINARY_DIR}/tolc.cmake"
-    TLS_VERIFY
-      ON
-  )
-endif()
+include(FetchContent)
+FetchContent_Declare(
+  tolc_bootstrap
+  GIT_REPOSITORY https://github.com/Tolc-Software/bootstrap-tolc-cmake
+  GIT_TAG        main
+)
 
-include(${CMAKE_BINARY_DIR}/tolc.cmake)
+FetchContent_MakeAvailable(tolc_bootstrap)
 # Downloads and uses find_package to locate tolc
 get_tolc()
 
