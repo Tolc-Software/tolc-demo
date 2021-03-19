@@ -27,6 +27,7 @@ jobs:
       shell: cmd
       run: |
         call "%VCVARS%"
+        pip install virtualenv
         cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
