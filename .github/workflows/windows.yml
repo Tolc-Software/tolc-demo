@@ -38,4 +38,5 @@ jobs:
       run: |
         call "%VCVARS%"
         cd build
+        cd tolc
         python3 -c "import Math"
