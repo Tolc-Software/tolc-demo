@@ -1,0 +1,41 @@
+name: Windows
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    env:
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Configure
+      shell: cmd
+      run: |
+        call "%VCVARS%"
+        cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: |
+        call "%VCVARS%"
+        cmake --build build -j4
+
+    - name: Import python library
+      run: |
+        call "%VCVARS%"
+        cd build
+        python3 -c "import Math"

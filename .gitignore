@@ -9,6 +9,7 @@
 # Files
 !.gitignore
 !CMakeLists.txt
+!CMakeSettings.json
 !README.md
 
 # Directories
