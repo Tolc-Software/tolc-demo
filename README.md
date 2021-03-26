@@ -39,7 +39,7 @@ $ cmake --build build
 You should now be able to start using the `C++` library `Math` from `python`:
 
 ```shell
-$ cd build
+$ cd build/tolc
 $ python3
 >>> import Math
 >>> Math.Demo.merge({"tolc": 0}, {"demo": 1})

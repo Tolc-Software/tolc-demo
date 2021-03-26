@@ -23,5 +23,5 @@ jobs:
 
     - name: Import python library
       run: |
-        cd build
+        cd build/tolc
         python3 -c "import Math"
