@@ -24,4 +24,4 @@ jobs:
     - name: Import python library
       run: |
         cd build/tolc
-        python3 -c "import Math"
+        python3 -c "import MyCppLib"

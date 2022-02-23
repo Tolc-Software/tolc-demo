@@ -26,8 +26,7 @@ Fork and download this repository.
 Go to the root of the project and generate the build files:
 
 ```shell
-# The python part is only strictly needed on MacOS
-$ cmake -S. -Bbuild -DPYTHON_EXECUTABLE=$(which python3)
+$ cmake -S. -Bbuild
 ```
 
 This will automatically download `tolc`, and anything needed to build the library for use in `python` (in this case, [the `pybind11` project](https://github.com/pybind/pybind11)).
@@ -38,18 +37,14 @@ Build the library:
 $ cmake --build build
 ```
 
-You should now be able to start using the `C++` library `Math` from `python`:
+You should now be able to start using the `C++` library `MyCppLib` from `python`:
 
 ```shell
 $ cd build/tolc
 $ python3
->>> import Math
->>> Math.Demo.merge({"tolc": 0}, {"demo": 1})
+>>> import MyCppLib
+>>> MyCppLib.Demo.merge({"tolc": 0}, {"demo": 1})
 {'demo': 1, 'tolc': 0}
 ```
 
 It's that easy!
-
-## Contributing ##
-
-As of writing this `tolc` is in *beta*. This demo is meant to try to find the biggest bugs aswell as gather information about what is most important to users. The best way to help the project is to use the beta and report any issue you find, nothing is too small!

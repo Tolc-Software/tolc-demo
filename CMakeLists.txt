@@ -2,32 +2,33 @@ cmake_minimum_required(VERSION 3.15)
 
 project(tolc-demo LANGUAGES CXX)
 
-add_library(Math src/Demo/demo.cpp)
-target_include_directories(Math PUBLIC include)
+add_library(MyCppLib src/Demo/demo.cpp)
+target_include_directories(MyCppLib PUBLIC include)
 
 set_target_properties(
-  Math
+  MyCppLib
   PROPERTIES CXX_STANDARD 14
              CXX_STANDARD_REQUIRED ON
              CXX_EXTENSIONS OFF)
 
+# Can be ["latest", "v1.2.0", ...]
+set(tolc_version latest)
 include(FetchContent)
 FetchContent_Declare(
   tolc_entry
-  URL https://github.com/Tolc-Software/tolc/releases/download/main-release/tolc-${CMAKE_HOST_SYSTEM_NAME}-main.tar.gz
+  URL https://github.com/Tolc-Software/tolc/releases/download/${tolc_version}/tolc-${CMAKE_HOST_SYSTEM_NAME}.tar.xz
 )
 FetchContent_Populate(tolc_entry)
 
-find_package(tolc CONFIG PATHS ${tolc_entry_SOURCE_DIR} REQUIRED
-             NO_DEFAULT_PATH)
+find_package(tolc CONFIG PATHS ${tolc_entry_SOURCE_DIR} REQUIRED)
 
-# Creates a CMake target Math_python that can be
-# imported and used from python as 'import Math'
+# Creates a CMake target MyCppLib_python that can be
+# imported and used from python as 'import MyCppLib'
 tolc_create_translation(
   # Target to translate from
   # Uses PUBLIC include directories to find headers
   TARGET
-  Math
+  MyCppLib
   # Language to target
   LANGUAGE
   python
