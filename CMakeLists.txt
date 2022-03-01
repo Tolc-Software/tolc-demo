@@ -24,7 +24,7 @@ find_package(tolc CONFIG PATHS ${tolc_entry_SOURCE_DIR} REQUIRED)
 
 # Creates a CMake target MyCppLib_python that can be
 # imported and used from python as 'import MyCppLib'
-tolc_create_translation(
+tolc_create_bindings(
   # Target to translate from
   # Uses PUBLIC include directories to find headers
   TARGET
