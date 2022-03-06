@@ -28,6 +28,7 @@ jobs:
         python-version: '3.8'
 
     - name: Setup Emscripten
+      shell: cmd
       run: |
         git submodule update --init
         cd emsdk
@@ -53,6 +54,7 @@ jobs:
         cmake --build build-wasm -j4
 
     - name: Run artifacts
+      shell: cmd
       run: |
         python python\main.py
         node wasm\main.js
