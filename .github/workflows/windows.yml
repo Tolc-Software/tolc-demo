@@ -43,8 +43,8 @@ jobs:
       shell: cmd
       run: |
         call "%VCVARS%"
-        cmake -S. -Bbuild-py -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -G Ninja
-        cmake -S. -Bbuild-wasm -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -G Ninja -DCMAKE_TOOLCHAIN_FILE=emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+        cmake -S. -Bbuild-py -Dlanguage=python -G Ninja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl
+        cmake -S. -Bbuild-wasm -Dlanguage=wasm -G Ninja -DCMAKE_TOOLCHAIN_FILE=emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 
     - name: Build
       shell: cmd
