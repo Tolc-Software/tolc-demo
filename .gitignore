@@ -8,11 +8,15 @@
 # Except these
 # Files
 !.gitignore
+!.gitmodules
 !CMakeLists.txt
 !README.md
 
 # Directories
 !.github
-!include
-!src
 !docs
+!emsdk
+!include
+!python
+!src
+!wasm

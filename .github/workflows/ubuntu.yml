@@ -15,13 +15,33 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Setup Emscripten
+      run: |
+        git submodule update --init
+        cd emsdk
+        ./emsdk install 3.1.3
+        ./emsdk activate 3.1.3
+
     - name: Configure
-      run: cmake -S. -Bbuild -DPYTHON_EXECUTABLE=$(which python3)
+      run: |
+        cmake -S. -Bbuild-py -Dlanguage=python
+        cmake -S. -Bbuild-wasm -Dlanguage=wasm -DCMAKE_TOOLCHAIN_FILE=emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 
     - name: Build
-      run: cmake --build build -j4
-
-    - name: Import python library
       run: |
-        cd build/tolc
-        python3 -c "import MyCppLib"
+        cmake --build build-py -j4
+        cmake --build build-wasm -j4
+
+    - name: Run artifacts
+      run: |
+        python python/main.py
+        node wasm/main.js
