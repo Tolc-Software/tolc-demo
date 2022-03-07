@@ -35,7 +35,6 @@ Generate build files (this will also download `Tolc` to the build directory)
 # For python
 $ cmake -S. -Bbuild-py -Dlanguage=python
 # For WebAssembly
-$ cmake -S. -Bbuild-wasm -Dlanguage=wasm -D
 $ cmake -S. -Bbuild-wasm -Dlanguage=wasm -DCMAKE_TOOLCHAIN_FILE=emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 ```
 
