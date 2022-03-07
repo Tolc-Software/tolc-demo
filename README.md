@@ -1,50 +1,65 @@
-# Tolc demo - Using `C++` from other languages #
+# Tolc demo #
 
-![Ubuntu](https://github.com/Tolc-Software/tolc-demo/workflows/Ubuntu/badge.svg) ![MacOS](https://github.com/Tolc-Software/tolc-demo/workflows/MacOS/badge.svg)
+This is a demo over how to use [`Tolc`](https://github.com/Tolc-Software/tolc) the bindings compiler. It will make it trivial to use your `C++` from other languages.
 
-[Signup to influence the development of `tolc`](https://srydell.github.io/tolc/signup/)
+This repo contains the project `MyCppLib` that exposes just a simple function `Hello::cppFunction` that we want to use from both `python` and `javascript`.
 
-`tolc` is a project aiming to making it effortless to use `C++` from other languages. This demo is meant to show how easy it is to get going and start using existing `C++` libraries from for example `python` with the help of `tolc`.
-
-`tolc` itself is a simple executable that takes one file (typically a `C++` header), and spits out binding code that can be built to provide a bridge from the input to some other language. This demo uses the open beta version of `tolc` and shows the available `CMake` wrappers to translate a library to be used from `python`. A brief overview of the whole process can be seen below:
-
-![Translation process overview](docs/tolcCreateTranslationOverview.png "Translation process overview")
-
-## Usage ##
+In the [`CMakeLists.txt`](./CMakeLists.txt) we download the `latest` version of `Tolc` and uses the `tolc_create_bindings` function provided by the `Tolc` package. When the bindings are built (for `python` a `CPython` library, and for `javascript` a `WebAssembly` module), they are copied to the [`./python`](./python) directory or to the [`./wasm`](./wasm) directory. In order to know what to copy we pass `-Dlanguage=python` or `-Dlanguage=wasm` at configure time.
 
 ### Prerequisites ###
 
 You need the following installed locally:
 
-* `CMake` - Tested with `>3.11`.
-* `python` - The language to translate to.
+* `CMake` (version `>=3.15`)
+* `python3` - To run the `python` (on Debian/Ubuntu you also need `python3-dev` from `apt`)
+* `node` - To run the `WebAssembly`
 
-### Building and importing ###
+### Building and using ###
 
-Fork and download this repository.
-
-Go to the root of the project and generate the build files:
+We'll start by downloading and configuring [`Emscripten`](https://emscripten.org/). Their `SDK` is stored as a submodule in this repository so all we have to do is:
 
 ```shell
-$ cmake -S. -Bbuild
+$ git submodule update --init
+$ cd emsdk
+# Download Emscripten to emsdk/upstream
+$ ./emsdk install 3.1.3
+# Write the .emscripten config file
+$ ./emsdk activate 3.1.3
 ```
 
-This will automatically download `tolc`, and anything needed to build the library for use in `python` (in this case, [the `pybind11` project](https://github.com/pybind/pybind11)).
+Note that for `Windows` you switch out `./emsdk` for `emsdk.bat`. Now we can build the actual project.
+
+Generate build files (this will also download `Tolc` to the build directory)
+
+```shell
+# For python
+$ cmake -S. -Bbuild-py -Dlanguage=python
+# For WebAssembly
+$ cmake -S. -Bbuild-wasm -Dlanguage=wasm -D
+$ cmake -S. -Bbuild-wasm -Dlanguage=wasm -DCMAKE_TOOLCHAIN_FILE=emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+```
+
+Note that the `/` is used as a directory separator even on `Windows`.
 
 Build the library:
 
 ```shell
-$ cmake --build build
+# For python
+$ cmake --build build-py
+# For WebAssembly
+$ cmake --build build-wasm
 ```
 
-You should now be able to start using the `C++` library `MyCppLib` from `python`:
+Since this copies the built artifacts to `./python` or `./wasm` we can now run
 
 ```shell
-$ cd build/tolc
-$ python3
->>> import MyCppLib
->>> MyCppLib.Demo.merge({"tolc": 0}, {"demo": 1})
-{'demo': 1, 'tolc': 0}
+# For python
+$ python3 python/main.py
+# For WebAssembly
+$ node wasm/main.js
 ```
 
-It's that easy!
+Now whenever you change the any of the headers in the include directory and rebuild,
+the new functions and classes will be available from both `python` and `javascript`.
+
+You can read more over at the [documentation for `Tolc`](https://docs.tolc.io/).
