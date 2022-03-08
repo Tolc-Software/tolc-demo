@@ -58,7 +58,7 @@ $ python3 python/main.py
 $ node wasm/main.js
 ```
 
-Now whenever you change the any of the headers in the include directory and rebuild,
+Now whenever you change any of the headers in the include directory and rebuild,
 the new functions and classes will be available from both `python` and `javascript`.
 
 You can read more over at the [documentation for `Tolc`](https://docs.tolc.io/).
