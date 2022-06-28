@@ -2,7 +2,7 @@
 
 This is a demo over how to use [`Tolc`](https://github.com/Tolc-Software/tolc) the bindings compiler. The goal is to make it trivial to use `C++` from other languages.
 
-This repo contains the project `MyCppLib` that exposes just a simple function `Hello::cppFunction` that we want to use from both `python`, `Objective-C` and `javascript`.
+This repo contains the project `MyCppLib` that exposes just a simple function `Hello::cppFunction` that we want to use from `python`, `Objective-C` and `javascript`.
 
 In the [`CMakeLists.txt`](./CMakeLists.txt) we download the `latest` version of `Tolc` and uses the `tolc_create_bindings` function provided by the `Tolc` package. When the bindings are built, the deliverables are copied to the corresponding directory ([`./python`](./python), [`./objc`](./objc), and [`./wasm`](./wasm)). In order to know what to copy we pass `-Dlanguage=python` at configure time.
 
