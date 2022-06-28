@@ -46,6 +46,14 @@ if(language STREQUAL python)
 elseif(language STREQUAL wasm)
   set(output_files $<TARGET_FILE_DIR:MyCppLib_wasm>/MyCppLib.js
                    $<TARGET_FILE_DIR:MyCppLib_wasm>/MyCppLib.wasm)
+elseif(language STREQUAL objc)
+  enable_language(OBJC)
+  add_executable(main objc/main.m)
+  target_link_libraries(main PRIVATE "-framework Foundation")
+  target_link_libraries(main PRIVATE MyCppLib_objc)
+  # The build lib and the corresponding header file
+  set(output_files $<TARGET_FILE:MyCppLib_objc>
+                   ${CMAKE_CURRENT_BINARY_DIR}/${language}-bindings/MyCppLib.h)
 endif()
 
 # Copy the built lib to the ${language} directory

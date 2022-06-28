@@ -36,14 +36,17 @@ jobs:
     - name: Configure
       run: |
         cmake -S. -Bbuild-py -Dlanguage=python
+        cmake -S. -Bbuild-objc -Dlanguage=objc
         cmake -S. -Bbuild-wasm -Dlanguage=wasm -DCMAKE_TOOLCHAIN_FILE=emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
 
     - name: Build
       run: |
         cmake --build build-py -j4
+        cmake --build build-objc -j4
         cmake --build build-wasm -j4
 
     - name: Run artifacts
       run: |
         python python/main.py
+        build-objc/main
         node wasm/main.js

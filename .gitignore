@@ -17,6 +17,7 @@
 !docs
 !emsdk
 !include
+!objc
 !python
 !src
 !wasm
